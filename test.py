@@ -104,3 +104,4 @@ area=length*width
 
 #This statement is printed if the input entered by the user is a number
 print(f"The room is {str(length)} m long x {str(width)} m wide.\nThe area of the room is {str(area)} sq. m.")
+print()
