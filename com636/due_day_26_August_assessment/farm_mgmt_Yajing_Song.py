@@ -5,7 +5,7 @@
  
 from datetime import datetime,timedelta     # datetime module is required for working with dates
 
-import com636.farm_data as farm_data    # Makes the variables and function in farm_data.py available in this code
+import com636.due_day_26_Agust_assessment.farm_data as farm_data    # Makes the variables and function in farm_data.py available in this code
 
 # {mob_name: [list of stock IDs]}
 mobs = {
