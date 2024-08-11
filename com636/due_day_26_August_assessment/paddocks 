@@ -1,0 +1,8 @@
+paddocks = {
+    "Corner": {'area':1.4, 'dm/ha': 1850, 'total dm':2590, 'mob':None, 'stock num': 0},
+    "Back": {'area':0.8, 'dm/ha': 2150, 'total dm':1760, 'mob':'R1-2', 'stock num': 11},
+    "Front": {'area':1.6, 'dm/ha': 2000, 'total dm':3200, 'mob':'R3', 'stock num': 7},
+    "Barn": {'area':0.5, 'dm/ha': 2200, 'total dm':1100, 'mob':'Bulls', 'stock num': 2}
+}
+for row in sorted(paddocks):
+    print(row)

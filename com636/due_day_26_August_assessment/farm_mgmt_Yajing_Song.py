@@ -5,7 +5,7 @@
  
 from datetime import datetime,timedelta     # datetime module is required for working with dates
 
-import com636.due_day_26_Agust_assessment.farm_data as farm_data    # Makes the variables and function in farm_data.py available in this code
+import farm_data    # Makes the variables and function in farm_data.py available in this code
 
 # {mob_name: [list of stock IDs]}
 mobs = {
@@ -60,6 +60,7 @@ for item in stock:
 stock_group(R1,"R1-2")
 stock_group(R3,"R3")
 stock_group(Bulls,"Bulls")
+
     
 # {paddock_name: {paddock_details}}
 paddocks = {
@@ -68,10 +69,35 @@ paddocks = {
     "Front": {'area':1.6, 'dm/ha': 2000, 'total dm':3200, 'mob':'R3', 'stock num': 7},
     "Barn": {'area':0.5, 'dm/ha': 2200, 'total dm':1100, 'mob':'Bulls', 'stock num': 2}
 }
-sorted_paddocks = sorted(paddocks.items())
-print("Paddock Name  Area  DM/ha  Total DM  Mob  Stock Num")
-print(f"{'Paddock Name':<10}  {'Area':<5}  {'DM/ha':<5}  {'Total DM':<5}  {'Mob':<5}  {'Stock Num':<5}")
-print(sorted_paddocks)
+
+
+def paddocks_dictionary():
+    for key in sorted(paddocks):
+        print(f"{key:^50}")
+        print(f"{'area':<5}  {"dm/ha":<10}  {"total dm":<10}  {"mob":<10}  {"stock num":<5}")
+        print("-----------------------------------------------------")
+        value = paddocks[key]
+        outter_value = value.values()
+        # for outter_value in inner_value:
+        # conver dic values to list
+        outter_value = list(outter_value)
+        print(f"{outter_value[0]:<5}  {outter_value[1]:<10}  {outter_value[2]:<10}  {str(outter_value[3]):<10}  {outter_value[4]:<5}")
+
+paddocks_dictionary()
+
+
+    # print(f"{'Paddock Name':<10}  {'Area':<5}  {'DM/ha':<5}  {'Total DM':<5}  {'Mob':<5}  {'Stock Num':<5}")
+    # print(f"{key:<10}  {paddocks[key]['area']:<5}  {paddocks[key]['dm/ha']:<5}  {paddocks[key]['total dm']:<5}  {paddocks[key]['mob']:<5}  {paddocks[key]['stock num']:<5}")
+
+
+
+
+# for item in stock:
+
+# sorted_paddocks = sorted(paddocks.items())
+# print("Paddock Name  Area  DM/ha  Total DM  Mob  Stock Num")
+# print(f"{'Paddock Name':<10}  {'Area':<5}  {'DM/ha':<5}  {'Total DM':<5}  {'Mob':<5}  {'Stock Num':<5}")
+# print(sorted_paddocks)
 
 
 # Global variable values that can be referred to throughout your code.  
