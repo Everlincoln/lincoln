@@ -81,70 +81,102 @@ def list_paddock_details():
 def move_mobs_between_paddocks(paddocks):
     """
     Change which paddock each mob is in. """
-    # Let the user choose a mob from "mobs" dictionary(user can input number/letter to choose their choice) and to move to a new paddock from "paddocks" dictionary which is not have any mob in it.
-    # If the paddock has a mob in it, the user should be informed and asked to choose another paddock.
-    mobs_keys = mobs.keys()
-    paddocks_keys = paddocks.keys()
-    #user can choose a number which is related to the mob name to move the mob to a new paddock
-    print ("\nPlease choose a number of the mob to move to a new paddock:")
-    print("* * * This is a paddock manu * * *")
-    print("1 : R1-2")
-    print("2 : R3")
-    print("3 : Bulls")
-    mob_choice = input("Enter the number of the mob you want to move: ")
-    #user can choose a number which is related to the paddock name to move the mob to a new paddock
-    print("\n* * * This is a paddock manu * * *")
-    # find all the paddocks that do not have a mob in it
-    print("\nPlease choose a number of the paddock to move the mob to:")
-    for index,key in enumerate(paddocks_keys):
-        if paddocks[key]['mob'] == None:
-            print(f"{index + 1} : {key}")
-    paddock_choice = input("Enter the number of the paddock you want to move the mob to: ")
-    # CHange the target paddock to the mob
-    paddock_choice = int(paddock_choice)
-    mob_choice = int(mob_choice)
-    paddock_choice = paddock_choice - 1
-    mob_choice = mob_choice - 1
-    paddock_key = paddocks_keys[paddock_choice]
-    mob_key = list(mobs_keys)[mob_choice]
-    # excute the move action
-    paddocks[paddock_key]['mob'] = mob_key
-    print(f"\nMob {mob_key} has been moved to paddock {paddock_key}")
+    # use while loop to guide our user to input the mob name and paddock name
+    # when the user enters X(which is upper case or lower case), the system will exit the loop
+    # function to display the mob names
+    response = ""
+    while response.upper() != "X":
+        # firstly we need to display the mob names and paddock names
+        mob_keys = mobs.keys()
+        paddock_keys = paddocks.keys()
+        paddock_keys = list(paddock_keys)
+        mob_keys = list(mob_keys)
+        # displat them in a better format
+        for index,mob in enumerate(mob_keys):
+            print(f"\n{index}: {mob}")
+        # ask the user to input the mob name
+        mob_name = input("\nEnter the mob index to move (or X to exit): ")
+        # if the user enters X, exit the loop
+        if mob_name.upper() == "X":
+            break
+        #  incorrect mob_name index, ask the user to enter the mob name again
+        if mob_name < "0" or mob_name > str(len(mob_keys)-1):
+            print("\n Mob index not found.")
+            continue
+        # display the paddock names
+        for index,paddock in enumerate(paddock_keys):
+            # if the paddock is empty mark it as available,if not mark it as occupied
+            if paddocks[paddock]['mob'] == None:
+                status = "Available"
+            else:
+                status = "Occupied"
+            print(f"\n {index}: {paddock} ({status})")
+        # ask the user to input the paddock name
+        paddock_name = input("Enter the paddock index to move to (or X to exit): ")
+        # if the user enters X, the system will exit the loop
+        if paddock_name.upper() == "X":
+            break
+        #  incorrect paddock index, ask the user to enter the paddock name again
+        if paddock_name < "0" or paddock_name > str(len(paddock_keys)-1):
+            print("\n Paddock index not found.")
+            continue
+        
+        # if the paddock is occupied, ask the user to enter the paddock name again
+        if paddocks[paddock_keys[int(paddock_name)]]['mob'] != None:
+            print("\n Paddock is occupied.")
+            continue
+        # update the stock number in the paddock where the mob was located
+        for key in paddocks:
+            if paddocks[key]['mob'] == mob_keys[int(mob_name)]:
+                paddocks[key]['stock num'] = 0
+                paddocks[key]['mob'] = None
+        # if the paddock is available, move the mob to the paddock
+        paddocks[paddock_keys[int(paddock_name)]]['mob'] = mob_keys[int(mob_name)]
+        # update the stock number in the paddock
+        paddocks[paddock_keys[int(paddock_name)]]['stock num'] = len(mobs[mob_keys[int(mob_name)]])
+        print(f"\nMob {mob_keys[int(mob_name)]} moved to paddock {paddock_keys[int(paddock_name)]}")
+
 
     input("\nPress Enter to continue.")
 
    
-
-   
-   
-
-    
-
-    
-
-
-
-
-
-   
-   
-
-   
-   
-    
-
-     
-
-    
-   
-    
-    pass  # REMOVE this line once you have some function code (a function must have one line of code, so this temporary line keeps Python happy so you can run the code)
-
 def add_new_stock(stock):
     """
     Add a new animal to the stock list."""
+    # user can input the new animal's mob name, birth date, age, and weight
+    mobs_keys = mobs.keys()
+    print("\nPlease enter the details of the new animal:")
+    mob_name = input("Enter the mob name: ")
+    birth_date = input("Enter the birth date (dd/mm/yyyy): ")
+    age = input("Enter the age in years: ")
+    weight = input("Enter the weight in kg: ")
+     # the new animal's ID is the only
+    # value that is not entered by the user.  Use the next_id() function to get the next available ID.
+    new_id = next_id(stock)
+    #the new animal's age must be calculated from their birth date and must be an integer value
+    birth_date = datetime.strptime(birth_date, "%d/%m/%Y")
+    current_date = datetime(2024,8,26)
+    age = current_date.year - birth_date.year
+    # the new animal's weight must be a float value
+    # the new animal's weight must be within the range of 250 to 700 kg
+    weight = float(weight)
+    if weight < 250 or weight > 700:
+        print("The weight must be between 250 and 700 kg")
+        return
+    # the system will continue to ask the user to enter the new animal's details until they enter exit
+    new_animal = [new_id, mob_name, birth_date, age, weight]
+    stock.append(new_animal)
+    print(f"\nNew animal added to stock list with ID: {new_id}")
+    input("\nPress Enter to continue.")
+    # when the user add new animal, the system will update the new animal's ID and the stock number in the paddock where the new animal is located
+    # when the user add new animal, the system will update the new animal's ID and the stock number in the paddock where the new animal is located
+    for key in paddocks:
+        if paddocks[key]['mob'] == mob_name:
+            paddocks[key]['stock num'] += 1
+    input("\nPress Enter to continue.")
 
-    pass  # REMOVE this line once you have some function code (a function must have one line of code, so this temporary line keeps Python happy so you can run the code)
+
+
 
 def move_to_next_day(stock, paddocks):
     """
