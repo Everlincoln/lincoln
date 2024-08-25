@@ -136,46 +136,75 @@ def move_mobs_between_paddocks(paddocks):
         paddocks[paddock_keys[int(paddock_name)]]['stock num'] = len(mobs[mob_keys[int(mob_name)]])
         print(f"\nMob {mob_keys[int(mob_name)]} moved to paddock {paddock_keys[int(paddock_name)]}")
 
-
-    input("\nPress Enter to continue.")
-
    
 def add_new_stock(stock):
     """
     Add a new animal to the stock list."""
-    # user can input the new animal's mob name, birth date, age, and weight
-    mobs_keys = mobs.keys()
-    print("\nPlease enter the details of the new animal:")
-    mob_name = input("Enter the mob name: ")
-    birth_date = input("Enter the birth date (dd/mm/yyyy): ")
-    age = input("Enter the age in years: ")
-    weight = input("Enter the weight in kg: ")
-     # the new animal's ID is the only
-    # value that is not entered by the user.  Use the next_id() function to get the next available ID.
-    new_id = next_id(stock)
-    #the new animal's age must be calculated from their birth date and must be an integer value
-    birth_date = datetime.strptime(birth_date, "%d/%m/%Y")
-    current_date = datetime(2024,8,26)
-    age = current_date.year - birth_date.year
-    # the new animal's weight must be a float value
-    # the new animal's weight must be within the range of 250 to 700 kg
-    weight = float(weight)
-    if weight < 250 or weight > 700:
-        print("The weight must be between 250 and 700 kg")
-        return
-    # the system will continue to ask the user to enter the new animal's details until they enter exit
-    new_animal = [new_id, mob_name, birth_date, age, weight]
-    stock.append(new_animal)
-    print(f"\nNew animal added to stock list with ID: {new_id}")
-    input("\nPress Enter to continue.")
-    # when the user add new animal, the system will update the new animal's ID and the stock number in the paddock where the new animal is located
-    # when the user add new animal, the system will update the new animal's ID and the stock number in the paddock where the new animal is located
-    for key in paddocks:
-        if paddocks[key]['mob'] == mob_name:
-            paddocks[key]['stock num'] += 1
-    input("\nPress Enter to continue.")
+    # Ask the user to enter details of a new stock animal
+    
+    response = ""
+    while response.upper() != "X":
+        # The new cattle ID must be unique (using provided next_id() function)
+        new_id = next_id(stock)
+        print(f"\nNew animal ID: {new_id}")
+        #[816, 'R3', datetime(2022,7,15), 2, 558.2],
+        # Birth date should be entered in an appropriate NZ date format and no earlier than the value in earliest_birth_date variable
+        birth_date = input(f"\nEnter the birth date (dd/mm/yyyy):")
+        # validate is a date
+        try:
+            datetime.strptime(birth_date, "%d/%m/%Y")
+        except ValueError:
+            print("\nInvalid date.")
+            continue
 
-
+        # if the birth date is earlier than the earliest_birth_date, ask the user to enter the birth date again
+        if datetime.strptime(birth_date, "%d/%m/%Y") < datetime.strptime(earliest_birth_date, "%d/%m/%Y"):
+            print(f"\nBirth date too early. must be no earlier than {earliest_birth_date}")
+            continue
+        # if the birth date is later than the current date, ask the user to enter the birth date again
+        if datetime.strptime(birth_date, "%d/%m/%Y") > current_date:
+            print("\nBirth date too late. must be no later than the current date")
+            continue
+        # Age must be calculated from the birth date entered (as whole years as at current_date)
+        age = current_date.year - datetime.strptime(birth_date, "%d/%m/%Y").year
+        print(f"\nAge: {age}")
+        # Animal weight must be between the values in weight_range variable.
+        weight = input("\nEnter the weight (kg):")
+        # validate is a number
+        try:
+            weight = float(weight)
+        except ValueError:
+            print("\nInvalid weight.")
+            continue
+        if weight < weight_range[0] or weight > weight_range[1]:
+            print(f"\nWeight out of range. Must be between {weight_range[0]} and {weight_range[1]}")
+            continue
+        # After adding each new stock animal, update the stock ID numbers in mobs and the stock_num in each paddock.
+        mob_keys = mobs.keys()
+        # list mobs and ask the user to enter the mob index to move it to the mob
+        for index,mob in enumerate(mob_keys):
+            print(f"\n{index}: {mob}")
+        mob_name = input("\nEnter the mob index to move to ")
+        # if the mob index is not found, ask the user to enter the mob index again
+        if mob_name < "0" or mob_name > str(len(mob_keys)-1):
+            print("\n Mob index not found.")
+            continue
+        mob_keys = list(mob_keys)
+        # update the mobs
+        mobs[mob_keys[int(mob_name)]].append(new_id)
+        # update the paddocks
+        for key in paddocks:
+            if paddocks[key]['mob'] == mob_keys[int(mob_name)]:
+                paddocks[key]['stock num'] += 1
+        # add the new stock to the stock list
+        stock.append([new_id,mob_keys[int(mob_name)],datetime.strptime(birth_date, "%d/%m/%Y"),age,weight])
+        # show success message
+        print(f"\nNew animal added to stock list with ID: {new_id}")
+        # print the stock list
+        list_all_stock()
+        list_stock_by_mob()
+        list_paddock_details()
+        response = input("\nPress Enter to continue or X to exit.")
 
 
 def move_to_next_day(stock, paddocks):
