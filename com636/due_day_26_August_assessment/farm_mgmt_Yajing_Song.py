@@ -167,6 +167,9 @@ def add_new_stock(stock):
             continue
         # Age must be calculated from the birth date entered (as whole years as at current_date)
         age = current_date.year - datetime.strptime(birth_date, "%d/%m/%Y").year
+        # Adjust if the birthdate has not yet occurred this year
+        if (current_date.month, current_date.day) < (datetime.strptime(birth_date, "%d/%m/%Y").month,datetime.strptime(birth_date, "%d/%m/%Y").day):
+                age -= 1
         print(f"\nAge: {age}")
         # Animal weight must be between the values in weight_range variable.
         weight = input("\nEnter the weight (kg):")
@@ -213,7 +216,37 @@ def move_to_next_day(stock, paddocks):
     """
     # Use the function in the line below to return 'total dm' and 'dm/ha' values for each paddock:  
     #     pasture_levels(area,stock,total_dm,pasture_growth_rate,stock_consumption_rate)      
-    pass  # REMOVE this line once you have some function code (a function must have one line of code, so this temporary line keeps Python happy so you can run the code)
+    # moves current_date forward by one day.
+    global current_date
+    current_date += timedelta(days=1)
+    print(f"\nCurrent date: {current_date.strftime('%d/%m/%Y')}")
+    #  Stock ages must all be updated for the new date.
+    for animal in stock:    
+        # compare current date with the birth date
+        # update the age by the difference between the current date and the birth date, make it as a whole year
+        animal[3] = current_date.year - animal[2].year
+        # Adjust if the birthdate has not yet occurred this year
+        if (current_date.month, current_date.day) < (animal[2].month, animal[2].day):
+             animal[3] -= 1
+    #  Paddock pasture levels must be updated for the new date.
+    for key in paddocks:
+        paddock = paddocks[key]
+        area = paddock['area']
+        stock = paddock['stock num']
+        total_dm = paddock['total dm']
+        # get the pasture levels
+        result = pasture_levels(area,stock,total_dm,pasture_growth_rate,stock_consumption_rate)
+        # update the paddock details
+        paddock['total dm'] = result['total dm']
+        paddock['dm/ha'] = result['dm/ha']
+    print("\nStock ages and paddock pasture levels updated.")
+    list_all_stock()
+    list_paddock_details()
+    input("\nPress Enter to continue.")
+    
+    
+
+
 
 
 def disp_menu():
@@ -221,7 +254,7 @@ def disp_menu():
     Displays the menu and current date.  No parameters required.
     """
     print("==== WELCOME TE WAIHORA FARM MANAGEMENT SYSTEM ===")
-    print("Today is [* * * show current_date here * * *]")
+    print(f"Today is {current_date.strftime('%d/%m/%Y')}")
     print(" 1 - List All Stock")
     print(" 2 - List Stock Grouped by Mob")
     print(" 3 - List Paddock Details")
@@ -254,14 +287,12 @@ while response.upper() != "X":
         add_new_stock(stock)
     elif response == "6":
         move_to_next_day(stock,paddocks)
-    # The user can enter "X" to exit the program.
+    # The user can enter "X" or "x" to exit the program.
     elif response.upper() == "X":
         print("=== Exiting the program ===")
         break   
-    elif response.upper() != "X":
+    else:
         print("\n*** Invalid response, please try again (enter 1-6 or X)")
-
-    print("")
 
 
 print("\n=== Thank you for using Te Waihora Farm Management System! ===\n")
