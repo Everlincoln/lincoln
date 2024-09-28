@@ -12,6 +12,7 @@ mobs = {
     "R3": [816, 810, 802, 800, 833, 777, 798],
     "Bulls": [121, 196]
 }
+
 # {paddock_name: {paddock_details}}
 paddocks = {
     "Corner": {'area':1.4, 'dm/ha': 1850, 'total dm':2590, 'mob':None, 'stock num': 0},

@@ -1,6 +1,6 @@
 # ============== TE WAIHORA FARM MANAGEMENT SYSTEM ==============
 # Student Name:Yajing Song
-# Student ID : 
+# Student ID : 1162200
 # ================================================================
  
 from datetime import datetime,timedelta     # datetime module is required for working with dates
@@ -46,11 +46,12 @@ def list_stock_by_mob():
     """
     Lists stock details (including birth date), grouped by mob name."""
     # Get the mob names from the mobs dictionary
+
     mob_keys = mobs.keys()
     # for each mob name, display the stock which belong to that mob
     for mob in mob_keys:
         print("\nMob:", mob)
-        format_str = "{: <8} {: <8} {: <5} {: ^10} {: <10}"            # Use the same format_str for column headers and rows to ensure consistent spacing. 
+        format_str = "{: <8} {: <8} {: <5} {: ^10} {: <10}"            # Use the format_str for column headers and rows to ensure consistent spacing. 
         display_formatted_row(["Mob","ID","Birth Date","Age","Weight",],format_str)     # Use the display_formatted_row() function to display the column headers with consistent spacing
         for animal in stock:
             if animal[1] == mob:
