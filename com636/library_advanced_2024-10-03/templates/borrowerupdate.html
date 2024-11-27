@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- code in here to display a list of books-->
+
+<h2>{{borrower[1]}} {{borrower[2]|upper}}</h2>
+<p><a href="/borrower?id={{borrower[0]}}&mode=edit">Edit</a>&nbsp;&nbsp;&nbsp;
+    <a href="/borrower?mode=add">Add new borrower</a><br></p>
+<table class="table">   <!-- Bootstrap style applied -->
+    <tr>
+        <td class="book-detail-row-title">ID</td>
+        <td>{{borrower[0]}}</td>
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">First name</td>   <!-- Style from styles.css applied -->
+        {% if mode=='display' %}
+            <td>{{borrower[1]}}</td>
+        {% elif mode in('edit','add') %}
+            <td><input type="text" name="first_name" id="first_name" 
+                {% if mode=='edit' %} value="{{borrower[1]}}"{% endif %}
+                ></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Family name</td>
+        {% if mode=='display' %}
+            <td>{{borrower[2]}}</td>
+        {% elif mode in('edit','add') %}
+            <td><input type="text" name="first_name" id="first_name" 
+                {% if mode=='edit' %} value="{{borrower[2]}}"{% endif %}
+                ></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Date of birth</td>
+        {% if mode=='display' %}
+            <td>{{borrower[3]}}</td>
+        {% elif mode in('edit','add') %}
+            <td><input type="text" name="first_name" id="first_name" 
+                {% if mode=='edit' %} value="{{borrower[3]}}"{% endif %}
+                ></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Address</td>
+        {% if mode=='display' %}
+            <td>{{borrower[4]}}</td>
+        {% elif mode in('edit','add') %}
+            <td><input type="text" name="first_name" id="first_name" 
+                {% if mode=='edit' %} value="{{borrower[4]}}"{% endif %}
+                ></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Surburb</td>
+        {% if mode=='display' %}
+            <td>{{borrower[5]}}</td>
+        {% elif mode in('edit','add') %}
+            <td><input type="text" name="first_name" id="first_name" 
+                {% if mode=='edit' %} value="{{borrower[5]}}"{% endif %}
+                ></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">City</td>
+        {% if mode=='display' %}
+            <td>{{borrower[6]}}</td>
+        {% elif mode in('edit','add') %}
+            <td><input type="text" name="first_name" id="first_name" 
+                {% if mode=='edit' %} value="{{borrower[6]}}"{% endif %}
+                ></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Postcode</td>
+        {% if mode=='display' %}
+            <td>{{borrower[7]}}</td>
+        {% elif mode in('edit','add') %}
+            <td><input type="text" name="first_name" id="first_name" 
+                {% if mode=='edit' %} value="{{borrower[7]}}"{% endif %}
+                ></td>
+        {% endif %}
+    </tr>
+</table>
+
+<p><br></p>
+
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form id="borrow_form" name="borrow_form" action="/loan" method="post">
+
+    <input type="hidden" name="loandate" id="loandate" value="{{loandate}}">
+
+    <p>
+        <label>Borrower</label>
+        {{borrower_id}}
+        <select class="form-control" name="borrower" id="borrower" >    <!-- Bootstrap style -->
+            <option>&lt;Select a borrower&gt;</option>
+            {% for borrower in borrowers %}
+            <option value="{{borrower[0]}}" {{"selected" if borrower[0]|string==borrower_id }}>{{borrower[1]}} {{borrower[2]}}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <p>
+        <label>Book</label>
+        <select class="form-control" name="book" id="book"  onchange="this.form.submit()">
+            <option>&lt;Select a book&gt;</option>
+            {% for book in books %}
+                <option value="{{book[0]}}" {{"selected" if book[0]|string==book_id }}>"{{book[1]}}" by {{book[2]}}</option>
+            {% endfor %}
+        </select>
+    </p>
+    {% if book_copies %}
+    <p>
+        <label>Copy</label>
+        <select class="form-control" name="book_copy" id="book_copy" >
+            <option>&lt;Select a book&gt;</option>
+            {% for book_copy in book_copies %}
+                <option value="{{book_copy[0]}}">{{book_copy[2]}}</option>
+            {% endfor %}
+        </select>
+    </p>
+    {% endif %}
+<p>
+    {% if book_copies %}
+        <input type="submit" value="Borrow" />
+    {% else %}
+        <input type="submit" value="Submit" />
+    {% endif %}
+
+   <input type="reset" value="Cancel" />
+</p>
+</form>
+
+{% if book_details %}
+<table class="table">   <!-- Bootstrap style applied -->
+    <tr>
+        <td rowspan="6" style="width: 300px;">
+            <img class="book-image" src="{{url_for('static',filename='book-covers/'+book_details[6])}}"> <!-- Style from styles.css applied -->
+        </td>
+        <td class="book-detail-row-title">Title</td>   <!-- Style from styles.css applied -->
+        <td>{{book_details[1]}}</td>
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">ID</td>
+        <td>{{book_details[0]}}</td>
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Author</td>
+        <td>{{book_details[2]}}</td>
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Category</td>
+        <td>{{book_details[3]}}</td>
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Published</td>
+        <td>{{book_details[4]}}</td>
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Description</td>
+        <td>{{book_details[5]}}</td>
+    </tr>
+</table>
+{% endif %}
+
+
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- code in here to display a list of borrowers -->
+<!-- borrowerlist is the variable passed in containing list of loans -->
+
+<h2>Borrower List</h2>
+<p><a href="/borrower/add">Add new borrower</a></p>
+
+<table class="table">   <!-- Bootstrap style applied -->
+    <tr><th>ID</th><th>Name</th><th>Date of Birth</th><th>Address</th>
+    {% for borrower in borrowers %}
+        <tr>
+            <td><a href="/borrower?id={{borrower[0]}}">{{borrower[0]}}</a></td>
+            <td><a href="/borrower?id={{borrower[0]}}">{{borrower[1]}} {{borrower[2]|upper}}</a></td>
+            <td><a href="/borrower?id={{borrower[0]}}">{{borrower[3].strftime('%d %B %Y')}}</a></td>
+            <td><a href="/borrower?id={{borrower[0]}}">{{borrower[4]}}, {% if borrower[5] %}{{borrower[5]}}, {% endif %}{{borrower[6]}} {{borrower[7]}}</a></td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

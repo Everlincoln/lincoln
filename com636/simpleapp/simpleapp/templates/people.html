@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>People</h2>
+
+<p><a href="/person/add">Add new person</a>
+
+<table class="table simple-table">   <!-- Bootstrap style and our own style applied -->
+    <tr>
+        <!-- Table column headings -->
+        <th>ID</th>
+        <th>Name</th>
+        <th>Room</th>
+    </tr>
+    {% for person in people %}  <!-- A FOR loop, just like in Python: people is the list of tuples, and person is the tuple in each loop -->
+        <tr>
+            <td><a href="/person?id={{person[0]}}">{{person[0]}}</a></td>   <!-- The trick here is to include {{person[0]}} inside the <a> tag -->
+            <td><a href="/person?id={{person[0]}}">{{person[1]}}</a></td>   <!--    after the GET method ? so that each link is unique to that person -->
+            <td><a href="/person?id={{person[0]}}">{{person[2]}}</a></td>   <!--    with their id coded into the link -->
+        </tr>
+    {% endfor %}    <!-- Jinja needs to close the FOR loop though, because it doesn't use the whitespace indenting like Python -->
+</table>
+
+{% endblock %}

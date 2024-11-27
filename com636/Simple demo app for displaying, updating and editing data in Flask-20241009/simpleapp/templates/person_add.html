@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Add a new person</h2>
+
+<form action="/person/add/insert" method="post" id="person_form" name="person_form" >
+
+    <!-- id isn't included in the form because the people table is set up to add a unique id automatically -->
+     
+    <table class="table simple-table">   <!-- Bootstrap style and our own style applied -->
+        <tr>
+            <td>Name</td>   
+            <td><input type="text" name="name" id="name"></td>
+        </tr>
+        <tr>
+            <td>Room</td>
+            <td><input type="text" name="room" id="room"></td>
+        </tr>
+    </table>
+    <input type="submit" value="Submit" />
+</form>
+<p><br></p>
+
+
+{% endblock %}

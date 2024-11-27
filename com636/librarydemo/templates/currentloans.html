@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- code in here to display a list of loans -->
+<!-- loanlist is the variable passed in containing list of loans -->
+
+<h2>Loans (Version 1)</h2>
+<p>A list of books on loan</p>
+<p>This version of the page allows you to enter partial text into the Filter text box. Press the Filter button to see all books with matching text in the title.</p>
+
+<form id="borrow_form" name="borrow_form" action="/currentloans/filter" method="post">
+
+    <p>
+        <label>Filter: </label>
+        <input type="text" value="{{booktitle}}" name="book">
+        <input type="submit" value="Filter" />
+        <input type="reset" value="Cancel" />
+    </p>
+</form>
+
+<table class="table table-striped">
+    <tr>
+        <th colspan="3">Borrower</th><th colspan="2">Loan Details</th><th colspan="7">Book</th></tr>
+        <th>ID</th><th>First</th><th>Last</th><th>Date</th><th>Returned</th><th>ID</th><th>Copy</th><th>Title</th><th>Author</th><th>Category</th><th>Year</th><th>Format</th></tr>
+    {% for book in loanlist %}
+        <tr>
+            <td>{{book[0]}}</td>
+            <td>{{book[1]}}</td>
+            <td>{{book[2]}}</td>
+            <td>{{book[5]}}</td>
+            <td>{{book[6]}}</td>
+            <td>{{book[7]}}</td>
+            <td>{{book[4]}}</td>
+            <td>{{book[8]}}</td>
+            <td>{{book[9]}}</td>
+            <td>{{book[10]}}</td>
+            <td>{{book[11]}}</td>
+            <td>{{book[12]}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+br.borrowerid, br.firstname, br.familyname,  
+                l.borrowerid, l.bookcopyid, l.loandate, l.returned, b.bookid, b.booktitle, b.author, 
+                b.category, b.yearofpublication, bc.format 
+
+{% endblock %}

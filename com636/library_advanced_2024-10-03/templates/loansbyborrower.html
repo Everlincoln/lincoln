@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- code in here to display a list of loans -->
+<!-- loanlist is the variable passed in containing list of loans -->
+
+<h2>Loans by Borrower</h2>
+<p>An example of Jinja's <code>groupby</code> filter: A list of books on loan grouped by the borrower ID.</p>
+
+<p>Use Jinja's <code>groupby</code> filter which groups <code>loan_list</code> by borrower_id.</p>
+<p>This essentially creates a separate list of tuples for each <code>borrower_id</code>:</p>
+    <p>All of the tuples in <code>loan_list</code> with the same <code>borrower_id</code> are grouped into a tuple
+           which has the <code>borrower_id</code> and then a list of tuples for all of the query rows
+           with that <code>borrower_id</code>.</p>
+    <p>  Scroll down to see the raw output at the bottom of the page in the browser to see what this looks like.</p>
+
+    <table class="table table-striped">   <!-- Bootstrap styles applied -->
+        <tr>
+            <th colspan="3">Borrower</th><th colspan="2">Loan Details</th><th colspan="7">Book</th></tr>
+            <th>ID</th><th>First</th><th>Last</th><th>Date</th><th>Loan Status</th><th>ID</th><th>Copy</th><th>Title</th><th>Author</th><th>Category</th><th>Year</th><th>Format</th></tr>
+        {%- for book in loan_list %}
+            {# if (loop.previtem is defined and loop.previtem[0] != book[0]) or loop.first #} 
+            {%- if loop.changed(book[0]) %} 
+                <tr>
+                    <td><b>{{book[0]}}</b></td>
+                    <td><b>{{book[1]}}</b></td>
+                    <td><b>{{book[2]}}</b></td>
+                    <td colspan="9"></td>
+                </tr>
+            {%- endif %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{book[5].strftime('%d %b %Y')}}</td>  <!-- Adding a nicer date display format -->
+                <td>{% if book[6] == 1 %}Returned
+                    {% else %}On loan <a href="/loan/return?loan_id={{book[13]}}">Return</a>{% endif %}
+                    </td> <!-- Nicer than just 0 or 1 -->
+                <td>{{book[7]}}</td>
+                <td>{{book[4]}}</td>
+                <td>{{book[8]}}</td>
+                <td>{{book[9]}}</td>
+                <td>{{book[10]}}</td>
+                <td>{{book[11]}}</td>
+                <td>{{book[12]}}</td>
+            </tr>
+        {%- endfor %}
+    </table>
+    
+
+{% endblock %}

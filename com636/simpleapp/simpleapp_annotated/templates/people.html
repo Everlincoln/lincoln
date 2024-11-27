@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h4>Displaying data from a query + creating dynamic links with GET method</h4>
+
+<p>The variable <code>person</code> is passed to this page from <code>app.py</code>. It is a list of tuples containing the data from the <code>people</code> table.</p>
+<p>A <code>for</code> loop creates one row in the HTML table for each row (tuple) in <code>person</code>.</p>
+<p>The link for each person is unique using the <code>get</code> method, which you can recognise by the <code>?</code> in the URL, e.g.: <code>/person?id=123</code>. 
+   The following information is passed using HTTP:</p>
+   <ul>
+    <li>the URL or route: <code>/person</code></li>
+    <li>a variable name and a value: <code>id=123</code></li>
+   </ul> 
+<p>The value of <code>id</code> is read using <code>request.args</code> in <code>app.py</code>.</p>
+<hr>
+<p><br></p>
+
+<!-- * * * Relevant HTML and Jinja code starts from here * * * -->
+
+<h2>People</h2>
+<p><a href="/person/add">Add new person</a>
+    
+    &nbsp;&nbsp;&nbsp;<code>Link text: &lt;a href="/person/add"&gt;</code></p>   <!-- Ignore this line: it's just here so you can see what the link looks like on the page. -->
+
+<table class="table simple-table">   <!-- Bootstrap style and our own style applied -->
+    <tr>
+        <!-- Table column headings -->
+        <th>ID</th>
+        <th>Name</th>
+        <th>Room</th>
+        <th><code>Link text for each row</code></th>
+    </tr>
+    {% for person in people %}  <!-- A FOR loop, just like in Python: people is the list of tuples, and person is the tuple in each loop -->
+        <tr>
+            <td><a href="/person?id={{person[0]}}">{{person[0]}}</a></td>   <!-- The trick here is to include {{person[0]}} inside the <a> tag -->
+            <td><a href="/person?id={{person[0]}}">{{person[1]}}</a></td>   <!--    after the GET method ? so that each link is unique to that person -->
+            <td><a href="/person?id={{person[0]}}">{{person[2]}}</a></td>   <!--    with their id coded into the link -->
+
+            <td><code>&lt;a href="/person?id={{person[0]}}"&gt;</code></td>     <!-- Ignore this line: it's just here so you can see what the link looks like on the page. -->
+        </tr>
+    {% endfor %}    <!-- Jinja needs to close the FOR loop though, because it doesn't use the whitespace indenting like Python -->
+</table>
+
+{% endblock %}

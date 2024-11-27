@@ -1,0 +1,42 @@
+a:hover {
+    color: orange;
+}
+
+.book-table {
+    text-align: center;
+}
+
+.book-image {
+    height: 300px;
+    width: 300px;
+    object-fit: contain;
+}
+
+.book-detail-row-title {
+    width: 120px;
+    font-weight: bold;
+}
+
+.loan-table {
+    vertical-align: middle;
+    background-color: gold;
+    padding: 10px;
+}
+
+.footer-text {
+    text-align: center; 
+    font-style: italic;
+}
+
+.footer-image {
+    height: 150px;
+    background-image: url('/static/Library_public_domain.png');
+    background-size: 150px 150px;
+}
+
+code {
+    color: darkblue;
+    font-weight: bold;
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 12pt;
+}

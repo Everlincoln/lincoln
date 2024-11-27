@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- code in here to display a list of books-->
+
+<h2>{{borrower[1]}} {{borrower[2]|upper}}</h2>
+<p><a href="/borrower/edit?id={{borrower[0]}}">Edit</a><br></p>
+<table class="table">   <!-- Bootstrap style applied -->
+    <tr>
+        <td class="book-detail-row-title">ID</td>
+        <td>{{borrower[0]}}</td>
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">First name</td>   <!-- Style from styles.css applied -->
+         <td>{{borrower[1]}}</td>
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Family name</td>
+        <td>{{borrower[2]}}</td>
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Date of birth</td>
+        <td>{{borrower[3].strftime('%d %b %Y')}}</td>
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Address</td>
+        <td>{{borrower[4]}}</td>
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Surburb</td>
+        <td>{{borrower[5]}}</td>
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">City</td>
+        <td>{{borrower[6]}}</td>
+    </tr>
+    <tr>
+        <td class="book-detail-row-title">Postcode</td>
+        <td>{{borrower[7]}}</td>
+    </tr>
+</table>
+
+<p><br></p>
+
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<h1 style="text-align: center; color:darkblue"><em>Nau mai! Welcome!</em></h1>
+<h3 style="text-align: center; color:darkblue">Welcome to your local library</h3>
+
+<p>Books are available to all members of COMP636 (if they buy them from somewhere else!).</p>
+
+{% if top3 %}   <!-- Only show table if top3 is not empty -->
+    <h3>Our most popular* books</h3>
+
+    <table class="table book-table">
+        <tr>
+        {% for book in top3 %}
+            <td><a href="{{url_for('bookdetails')}}?bookid={{book[0]}}"><img class="book-image" src="{{url_for('static',filename='book-covers/'+book[1])}}"></a></td>
+        {% endfor %}
+        </tr>
+    </table>
+    <p><i>* our only books!</i></p>
+{% endif %}
+
+{% endblock %}

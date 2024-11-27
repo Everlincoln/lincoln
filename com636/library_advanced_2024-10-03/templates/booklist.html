@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- code in here to display a list of books-->
+<h2>Book List</h2>
+<p>A list of all books in our collection.</p>
+
+<!-- Show the loan form if show_loan is True -->
+{% if show_loan %}
+    <form id="borrow_form" name="borrow_form" action="loan/add" method="post">
+
+        <input type="hidden" name="loandate" id="loandate" value="{{loandate}}">
+
+        <table class="loan-table">
+            <tr>
+                <td class="loan-table" style="width:90px"><b>Borrower:</b></td>     <!-- styles.css style applied -->
+                <td style="width:300px"><select class="form-control" name="borrower" id="borrower" >     <!-- Bootstrap style applied -->   
+                        <option>&lt;Select a borrower&gt;</option>
+                        {% for borrower in borrowers %}
+                            <option value="{{borrower[0]}}">{{borrower[1]}} {{borrower[2]}}</option>
+                        {% endfor %}
+                    </select></td>
+                <td style="width:30px"></td>
+                <td class="loan-table" style="width:50px"><b>Book: </td>
+                <td><select class="form-control" style="width:300px" name="book_copy" id="book_copy" >
+                        <option>&lt;Select a book&gt;</option>
+                        {% for book in book_copies %}
+                            <option value="{{book[0]}}">"{{book[4]}}" by {{book[5]}} - {{book[2]}}, {{book[7]}}</option>
+                        {% endfor %}
+                    </select></td>
+                <td style="width:30px"></td>
+                <td class="loan-table" style="width:85px"><input class="btn btn-primary" type="submit" value="Borrow" /></td>
+                <td class="loan-table" style="width:85"><input class="btn btn-secondary" type="reset" value="Cancel" /></td>
+            </tr>
+            <tr>
+                <td colspan="8" style="text-align:center;">
+                    <i>This is still the Book List page.  
+                        Borrower option only shows up when ?loan=true.</i>
+                </td>
+            </tr>
+            <!-- Display an error message row if loan failed -->
+            {% if loan_error %}
+                <tr>
+                    <td></td>
+                    <td colspan="4" style="color:red;font-weight: 500;text-align: center;">Loan unsuccessful.  Select a borrower <i>and</i> a book.</td>
+                    
+                </tr>
+            {% endif %}          
+        </table>
+    </form>
+{% endif %}
+
+<table class="table">   <!-- Bootstrap style applied -->
+    <tr><th>Book ID</th><th>Title</th><th>Author</th><th>Type</th><th>Year of Publication</th></tr>
+    {% for book in book_list %}
+        <tr>
+            <!-- Each detail contains a link the the bookdetails page for that book -->
+            <td><a href="bookdetails?bookid={{book[0]}}">{{book[0]}}</a></td>
+            <td><a href="bookdetails?bookid={{book[0]}}">{{book[1]}}</a></td>
+            <td><a href="bookdetails?bookid={{book[0]}}">{{book[2]}}</a></td>
+            <td><a href="bookdetails?bookid={{book[0]}}">{{book[3]}}</a></td>
+            <td><a href="bookdetails?bookid={{book[0]}}">{{book[4]}}</a></td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>Dynamically displaying the data for a single person</h4>
+
+<p>This page displays the single row from the <code>people</code> table that corresponds to the value of <code>id</code> in the URL, 
+    e.g.: <code>/person?id=123</code> on the previous page.</p>
+<p><code>app.py</code> sends a tuple called <code>person</code> to this page and each item in <code>person</code> is displayed below.</p>
+<p>There is no looping required on this page because it is only showing a single row of data.</p>
+<p>The <a href="/person/edit?id={{person[0]}}">Edit</a> link also uses the <code>get</code> method to pass the id value to 
+    <a href="/person/edit?id={{person[0]}}">/person/edit</a>.</p>
+<hr>
+<p><br></p>
+
+
+<!-- * * * Relevant HTML and Jinja code starts from here * * * -->
+
+<h2>{{person[1]}}</h2>
+
+<p><a href="/person/edit?id={{person[0]}}">Edit</a>
+
+        &nbsp;&nbsp;&nbsp;<code>Link text: &lt;a href="/person/edit?id={{person[0]}}"&gt;</code></p>   <!-- Ignore this line: it's just here so you can see what the link looks like on the page. --></p>
+
+<table class="table simple-table">   <!-- Bootstrap style and our own style applied to make the table look nicer than the (ugly) HTML default -->
+    <tr>
+        <td><b>ID</b></td>
+        <td>{{person[0]}}</td>
+    </tr>
+    <tr>
+        <td><b>Name</b></td>   
+         <td>{{person[1]}}</td>
+    </tr>
+    <tr>
+        <td><b>Room</b></td>
+        <td>{{person[2]}}</td>
+    </tr>
+</table>
+
+<p><br></p>
+
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>Form to edit the data for a single person</h4>
+
+<p>This page displays the same data as <a href="/person">/person</a>, except on this page the data fields are displayed
+    in <code>&lt;input&gt;</code> fields.  This means that the user can type in new data for each value.
+Each <code>&lt;input&gt;</code> field has a name, e.g., <code>&lt;input name="room"&gt;</code>, which can be accessed 
+    in <code>app.py</code> later.</p>
+<p>Note that we don't want the user to change the ID value though, so that is not in an editable field
+     - <i>but</i> we are still going to need to send the value of ID with the form.  Therefore, we add a hidden field 
+     <code>&lt;input type="hidden"&gt;</code> so that <code>id</code> has a value, but the user can't edit it.</p>
+<p>The form is submitted using a submit button <code>&lt;input type="submit"&gt;</code>.</p>
+<p>When it is pressed, the data in the form is sent via HTTP using the POST method to 
+    <a href="/person/edit/update">/person/edit/update</a>
+    defined in the <code>action</code> attribute in the <code>&lt;form&gt;</code> HTML tag: 
+    <code>&lt;form action="/person/edit/update" method="post"&gt;</code>.</p>
+<p>When the form is submitted, the value of each input field is sent to <code>app.py</code> via the POST method as a 
+    dictionary item for each value in the form, e.g.: <code>{'name':'Lee', 'room':'S022'}</code>. This can then be 
+    accessed in <code>app.py</code> using <code>request.form</code> like a normal dictionary.</p>
+<p><code>app.py</code> reads the form data and turns it into an UPDATE query to change the data in the database.
+    When it has done that it uses the <code>redirect</code> statement at the end of the function to send 
+    the user back to the <a href="/person">/person</a> page, so they can see that their update worked.</p>
+<hr>
+<p><br></p>
+
+
+<!-- * * * Relevant HTML and Jinja code starts from here * * * -->
+
+
+<h2>{{person[1]}}</h2>
+
+<form action="/person/edit/update" method="post">   <!-- the URL and method="post" are crucial for app.py to be able to read the data from this form -->
+
+            <!-- Ignore me --> <code>&lt;form action="/person/edit/update" method="post"&gt;</code> <!-- Ignore this line: it is just to show the HTML code on the page -->
+                
+
+    <table class="table simple-table">   <!-- Bootstrap style and our own style applied -->
+        <tr>
+            <td>ID</td>
+            <td>{{person[0]}}
+                <input type="hidden" name="id" id="id" value="{{person[0]}}">   <!-- Still stores ID as a value in the form, but it can't be edited by the user -->
+            </td>
+                <!-- Ignore me: --><td><code>&lt;input type="hidden" name="id" id="id" value="{{person[0]}}"&gt;</code></td> <!-- Ignore this line: it is just to show the HTML code on the page -->
+        </tr>
+        <tr>
+            <td>Name</td>   
+            <td><input type="text" name="name" id="name" value="{{person[1]}}"> <!-- Shows an input box starting with the current value, which the user can then edit -->
+            </td>
+                <!-- Ignore me: --><td><code>&lt;input type="text" name="room" id="room" value="{{person[1]}}"&gt;</code></td> <!-- Ignore this line: it is just to show the HTML code on the page -->
+        </td>
+        </tr>
+        <tr>
+            <td>Room</td>
+            <td><input type="text" name="room" id="room" value="{{person[2]}}"> <!-- Shows an input box starting with the current value, which the user can then edit -->
+            </td>
+                <!-- Ignore me: --><td><code>&lt;input type="text" name="room" id="room" value="{{person[2]}}"&gt;</code></td> <!-- Ignore this line: it is just to show the HTML code on the page -->
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Submit">    <!-- This is needed to submit the form -->
+
+            <!-- Ignore me --> <code>&lt;input type="submit" value="Submit"&gt;</code> <!-- Ignore this line: it is just to show the HTML code on the page -->
+</form>
+<p><br></p>
+
+
+{% endblock %}

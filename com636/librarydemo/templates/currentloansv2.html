@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- code in here to display a list of loans -->
+<!-- loanlist is the variable passed in containing list of loans -->
+
+<h2>Loans (Version 2)</h2>
+<h3>A list of books on loan</h3>
+
+<p>On this page, you can select a book from the dropdown and only that book will show.  See the function in app.py and the HTML page both called <b><em>currentloansv2</em></b>.</p>
+<p>This page is an example of how the same template and function can be used with the SQL changing depending on the value selected.  
+    This makes the function more complicated than two separate functions, but it means that only one function needs to be changed if you make any changes.</p>
+<p>Which way is better?  These are the decisions you need to discuss in your report.</p>
+<p>Notice the Jinja code that is used so that the book that was selected for filtering is displayed again in the dropdown box when the page loads (rather than &lt;Select a book&gt;), so the user can see more easily which book they selected.</p>
+
+<form id="borrow_form" name="borrow_form" action="/currentloansv2" method="post">
+
+    <p>
+        <label>Book</label>
+        <select name="book" id="book" onchange="this.form.submit()">    <!-- The onchange attribute is very simple Javascript to automatically submit the form when the selection changes -->
+            <option>&lt;Select a book&gt;</option>
+            {% for book in booklist %}
+                <!-- if statement adds:  selected="selected"  to the book that matches bookid, so that that book is selected and shown in the dropdown -->
+                <option value="{{book[0]}}" {% if book[0] == bookid %}selected="selected"{% endif%}>{{book[1]}}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="Filter" />
+        <input type="reset" value="Cancel" />
+    </p>
+</form>
+
+<table class="table table-striped">
+    <tr>
+        <th colspan="3">Borrower</th><th colspan="2">Loan Details</th><th colspan="7">Book</th></tr>
+        <th>ID</th><th>First</th><th>Last</th><th>Date</th><th>Returned</th><th>ID</th><th>Copy</th><th>Title</th><th>Author</th><th>Category</th><th>Year</th><th>Format</th></tr>
+    {% for book in loanlist %}
+        <tr>
+            <td>{{book[0]}}</td>
+            <td>{{book[1]}}</td>
+            <td>{{book[2]}}</td>
+            <td>{{book[5]}}</td>
+            <td>{{book[6]}}</td>
+            <td>{{book[7]}}</td>
+            <td>{{book[4]}}</td>
+            <td>{{book[8]}}</td>
+            <td>{{book[9]}}</td>
+            <td>{{book[10]}}</td>
+            <td>{{book[11]}}</td>
+            <td>{{book[12]}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+
+
+{% endblock %}

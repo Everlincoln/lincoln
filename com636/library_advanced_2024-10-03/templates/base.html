@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>{% block title %}{% endblock %}</title>
+        <!-- favicon adds a small icon in the tab bar of your browser -->
+        <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+        <!-- Bootstrap CSS library -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">        <!-- Linking to our style.css stylesheet *after* the Bootstrap link means that our styles will overwrite Bootstrap styles with the same name. -->
+        <link href="{{ url_for('static', filename='styles.css')}}" rel="stylesheet" />
+    </head>
+    <body>
+        
+            <h1>Waikirikiri Library page</h1>
+            <table class="table">   <!-- Bootstrap style applied -->
+              <tr>
+                <td><a href="{{ url_for('home') }}">Home</a></td>
+                <td><a href="{{ url_for('listbooks') }}">List Books</a></td>
+                <td><a href="{{ url_for('listbooks') }}?loan=true">Loan v1</a><br>
+                    <a href="{{ url_for('loan') }}">Loan v2</a></td>
+                <td><a href="{{ url_for('borrowers') }}">List Borrowers (simple)</a><br>
+                    <a href="{{ url_for('borrowers_combined') }}">List Borrowers (combined)</a></td>
+                <td><a href="{{ url_for('loansbyborrower') }}">Loans by Borrower</a><br>
+                    <a href="{{ url_for('loansbyborrower_groupby') }}">Loans by Borrower V2</a></td>
+                <td><a href="{{ url_for('currentloans') }}">Current Loans (Version 1)</a><br>
+                    <a href="{{ url_for('currentloansv2') }}">Current Loans (Version 2)</a></td>
+            </tr>
+          </table>
+          <section class="content">
+            <header>
+              {% block header %}{% endblock %}
+            </header>
+            {% for message in get_flashed_messages() %}
+              <div class="flash">{{ message }}</div>
+            {% endfor %}
+           {% block content %}{% endblock %}
+          </section>
+          <div><br><br></div>
+          <div class="footer-image"></div>
+          <div class="footer-text">Waikirikiri Library</div>
+          <div style="text-align: center; font-style: italic;">Lincoln</div>
+        
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>    </body>
+</html> 
